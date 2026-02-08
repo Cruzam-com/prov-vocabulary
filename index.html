@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cruzam Provenance Vocabulary</title>
+<style>
+:root {
+  --bg: #fafafa;
+  --fg: #1a1a2e;
+  --accent: #2d5f8a;
+  --border: #d0d7de;
+  --card-bg: #fff;
+  --code-bg: #f0f3f6;
+  --section-bg: #e8f0fe;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1117;
+    --fg: #e6edf3;
+    --accent: #58a6ff;
+    --border: #30363d;
+    --card-bg: #161b22;
+    --code-bg: #1c2128;
+    --section-bg: #1c2638;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+h2 {
+  font-size: 1.3rem;
+  margin: 2.5rem 0 1rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--section-bg);
+  border-radius: 6px;
+}
+p.meta { color: var(--accent); font-size: 0.9rem; margin-bottom: 1.5rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code {
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.property {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.75rem;
+  background: var(--card-bg);
+}
+.property-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent);
+}
+.property-meta {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.2rem;
+}
+.property-comment {
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+.toc { margin: 1rem 0 2rem; }
+.toc ul { list-style: none; padding-left: 0; columns: 2; }
+.toc li { margin-bottom: 0.3rem; }
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.1em 0.5em;
+  border-radius: 10px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  vertical-align: middle;
+  margin-left: 0.3rem;
+}
+.formats { margin: 1.5rem 0; padding: 1rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; }
+.formats h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: #888; }
+</style>
+</head>
+<body>
+
+<h1>Cruzam Provenance Vocabulary</h1>
+<p class="meta">
+  Namespace: <code>https://prov.cruzam.com/</code> &middot;
+  Prefix: <code>cruzam:</code> &middot;
+  Version 0.1.0 &middot;
+  57 properties
+</p>
+
+<div class="formats">
+<h3>Machine-Readable Formats</h3>
+<p>This vocabulary supports content negotiation. Request with the appropriate <code>Accept</code> header:</p>
+<ul>
+  <li><code>text/turtle</code> &rarr; <a href="vocabulary.ttl">Turtle (OWL ontology)</a></li>
+  <li><code>application/ld+json</code> &rarr; <a href="context.jsonld">JSON-LD Context</a></li>
+  <li><code>text/html</code> &rarr; This page</li>
+</ul>
+</div>
+
+<nav class="toc">
+<h3>Sections</h3>
+<ul>
+  <li><a href="#health">Wearable Health Data</a> (24)</li>
+  <li><a href="#insight">Insight Classification</a> (3)</li>
+  <li><a href="#social">Social Network Analysis</a> (16)</li>
+  <li><a href="#provenance">Data Provenance &amp; Enrichment</a> (14)</li>
+  <li><a href="#audio">Audio Capture &amp; Transcription</a> (6)</li>
+  <li><a href="#meeting">Meeting &amp; Communication</a> (4)</li>
+  <li><a href="#meta">General Metadata</a> (3)</li>
+</ul>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="health">Wearable Health Data (Oura Ring)</h2>
+
+<div class="property" id="score">
+  <span class="property-name">cruzam:score</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Numeric score from source system (e.g., Oura sleep score, readiness score). 0-100 scale.</div>
+</div>
+
+<div class="property" id="day">
+  <span class="property-name">cruzam:day</span> <span class="badge">xsd:date</span>
+  <div class="property-comment">Calendar date the measurement covers.</div>
+</div>
+
+<div class="property" id="bedtimeStart">
+  <span class="property-name">cruzam:bedtimeStart</span> <span class="badge">xsd:dateTime</span>
+  <div class="property-comment">Start of sleep session as recorded by wearable device.</div>
+</div>
+
+<div class="property" id="bedtimeEnd">
+  <span class="property-name">cruzam:bedtimeEnd</span> <span class="badge">xsd:dateTime</span>
+  <div class="property-comment">End of sleep session as recorded by wearable device.</div>
+</div>
+
+<div class="property" id="efficiency">
+  <span class="property-name">cruzam:efficiency</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Sleep efficiency percentage (time asleep / time in bed * 100).</div>
+</div>
+
+<div class="property" id="avgHeartRate">
+  <span class="property-name">cruzam:avgHeartRate</span> <span class="badge">xsd:decimal</span>
+  <div class="property-comment">Average heart rate during sleep session in beats per minute.</div>
+</div>
+
+<div class="property" id="avgHrv">
+  <span class="property-name">cruzam:avgHrv</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Average heart rate variability during sleep in milliseconds.</div>
+</div>
+
+<div class="property" id="avgBreath">
+  <span class="property-name">cruzam:avgBreath</span> <span class="badge">xsd:decimal</span>
+  <div class="property-comment">Average breathing rate during sleep in breaths per minute.</div>
+</div>
+
+<div class="property" id="deepSleepDuration">
+  <span class="property-name">cruzam:deepSleepDuration</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total deep sleep duration in seconds.</div>
+</div>
+
+<div class="property" id="awakeTime">
+  <span class="property-name">cruzam:awakeTime</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total time spent awake during sleep session in seconds.</div>
+</div>
+
+<div class="property" id="contributorDeepSleep">
+  <span class="property-name">cruzam:contributorDeepSleep</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for deep sleep amount (0-100).</div>
+</div>
+
+<div class="property" id="contributorEfficiency">
+  <span class="property-name">cruzam:contributorEfficiency</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for sleep efficiency (0-100).</div>
+</div>
+
+<div class="property" id="contributorLatency">
+  <span class="property-name">cruzam:contributorLatency</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for sleep onset latency (0-100). Higher = fell asleep faster.</div>
+</div>
+
+<div class="property" id="contributorRemSleep">
+  <span class="property-name">cruzam:contributorRemSleep</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for REM sleep amount (0-100).</div>
+</div>
+
+<div class="property" id="contributorRestfulness">
+  <span class="property-name">cruzam:contributorRestfulness</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for restfulness / lack of disturbances (0-100).</div>
+</div>
+
+<div class="property" id="contributorTiming">
+  <span class="property-name">cruzam:contributorTiming</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for sleep timing alignment with circadian rhythm (0-100).</div>
+</div>
+
+<div class="property" id="contributorTotalSleep">
+  <span class="property-name">cruzam:contributorTotalSleep</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura sleep contributor score for total sleep duration (0-100).</div>
+</div>
+
+<div class="property" id="contributorActivityBalance">
+  <span class="property-name">cruzam:contributorActivityBalance</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for activity balance over recent days (0-100).</div>
+</div>
+
+<div class="property" id="contributorBodyTemperature">
+  <span class="property-name">cruzam:contributorBodyTemperature</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for body temperature deviation (0-100).</div>
+</div>
+
+<div class="property" id="contributorPreviousDayActivity">
+  <span class="property-name">cruzam:contributorPreviousDayActivity</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for previous day activity level (0-100).</div>
+</div>
+
+<div class="property" id="contributorPreviousNight">
+  <span class="property-name">cruzam:contributorPreviousNight</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for previous night sleep quality (0-100).</div>
+</div>
+
+<div class="property" id="contributorRecoveryIndex">
+  <span class="property-name">cruzam:contributorRecoveryIndex</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for resting heart rate recovery (0-100).</div>
+</div>
+
+<div class="property" id="contributorRestingHeartRate">
+  <span class="property-name">cruzam:contributorRestingHeartRate</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Oura readiness contributor score for resting heart rate relative to baseline (0-100).</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="insight">Insight Classification</h2>
+
+<div class="property" id="category">
+  <span class="property-name">cruzam:category</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Thematic category of an insight (e.g., 'sleep', 'activity', 'network').</div>
+</div>
+
+<div class="property" id="severity">
+  <span class="property-name">cruzam:severity</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Severity level of an insight finding (e.g., 'low', 'medium', 'high', 'critical').</div>
+</div>
+
+<div class="property" id="pattern">
+  <span class="property-name">cruzam:pattern</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Machine-readable pattern identifier for an insight (e.g., 'short_sleep_fast_onset').</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="social">Social Network Analysis (LinkedIn)</h2>
+
+<div class="property" id="postAuthor">
+  <span class="property-name">cruzam:postAuthor</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">LinkedIn public identifier (slug) of the original post author.</div>
+</div>
+
+<div class="property" id="reshareAuthor">
+  <span class="property-name">cruzam:reshareAuthor</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">LinkedIn public identifier (slug) of the person who reshared the post.</div>
+</div>
+
+<div class="property" id="taggedPeople">
+  <span class="property-name">cruzam:taggedPeople</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of people tagged in a social media post.</div>
+</div>
+
+<div class="property" id="commentParticipants">
+  <span class="property-name">cruzam:commentParticipants</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of unique people who commented on a post.</div>
+</div>
+
+<div class="property" id="totalUniquePeople">
+  <span class="property-name">cruzam:totalUniquePeople</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total number of unique people involved in a post (tagged + commenters, deduplicated).</div>
+</div>
+
+<div class="property" id="companiesMentioned">
+  <span class="property-name">cruzam:companiesMentioned</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of distinct companies mentioned or tagged in a post.</div>
+</div>
+
+<div class="property" id="topic">
+  <span class="property-name">cruzam:topic</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Primary topic or event identifier (e.g., 'PACT2026').</div>
+</div>
+
+<div class="property" id="taggedConnected">
+  <span class="property-name">cruzam:taggedConnected</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of tagged people who are 1st-degree connections.</div>
+</div>
+
+<div class="property" id="taggedTotal">
+  <span class="property-name">cruzam:taggedTotal</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total number of tagged people in the analysis set.</div>
+</div>
+
+<div class="property" id="commentConnected">
+  <span class="property-name">cruzam:commentConnected</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of comment participants who are 1st-degree connections.</div>
+</div>
+
+<div class="property" id="commentTotal">
+  <span class="property-name">cruzam:commentTotal</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total number of comment participants in the analysis set.</div>
+</div>
+
+<div class="property" id="totalConnected">
+  <span class="property-name">cruzam:totalConnected</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total number of people who are 1st-degree connections across all categories.</div>
+</div>
+
+<div class="property" id="totalPeople">
+  <span class="property-name">cruzam:totalPeople</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Total number of people in the analysis set.</div>
+</div>
+
+<div class="property" id="overlapRate">
+  <span class="property-name">cruzam:overlapRate</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Percentage of people who are 1st-degree connections (0-100).</div>
+</div>
+
+<div class="property" id="pichtrConnections">
+  <span class="property-name">cruzam:pichtrConnections</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of 1st-degree connections at PICHTR (Pacific International Center for High Technology Research).</div>
+</div>
+
+<div class="property" id="defenceAuConnections">
+  <span class="property-name">cruzam:defenceAuConnections</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of 1st-degree connections in Australian Defence organizations.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="provenance">Data Provenance &amp; Enrichment</h2>
+
+<div class="property" id="table">
+  <span class="property-name">cruzam:table</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Database table name that an entity references.</div>
+</div>
+
+<div class="property" id="rowCount">
+  <span class="property-name">cruzam:rowCount</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of rows in a referenced database table.</div>
+</div>
+
+<div class="property" id="records">
+  <span class="property-name">cruzam:records</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of records in a data file or batch.</div>
+</div>
+
+<div class="property" id="errors">
+  <span class="property-name">cruzam:errors</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of errors encountered during a batch operation.</div>
+</div>
+
+<div class="property" id="companies">
+  <span class="property-name">cruzam:companies</span> <span class="badge">rdfs:Literal</span>
+  <div class="property-comment">Company names/IDs in a batch, or count of companies in a dataset.</div>
+</div>
+
+<div class="property" id="fixCount">
+  <span class="property-name">cruzam:fixCount</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of corrections applied during a verification activity.</div>
+</div>
+
+<div class="property" id="people">
+  <span class="property-name">cruzam:people</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Count of people in a dataset or analysis.</div>
+</div>
+
+<div class="property" id="connectedPeople">
+  <span class="property-name">cruzam:connectedPeople</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Count of people who are 1st-degree connections in a dataset.</div>
+</div>
+
+<div class="property" id="sectors">
+  <span class="property-name">cruzam:sectors</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of industry sectors covered in an analysis.</div>
+</div>
+
+<div class="property" id="recommendedActions">
+  <span class="property-name">cruzam:recommendedActions</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of recommended follow-up actions in an opportunity brief.</div>
+</div>
+
+<div class="property" id="intelligenceGaps">
+  <span class="property-name">cruzam:intelligenceGaps</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of identified intelligence gaps requiring further research.</div>
+</div>
+
+<div class="property" id="claimCount">
+  <span class="property-name">cruzam:claimCount</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of provenance claims recorded.</div>
+</div>
+
+<div class="property" id="status">
+  <span class="property-name">cruzam:status</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Epistemic status of a claim or entity (e.g., 'CANDIDATE', 'VERIFIED', 'DISPUTED', 'RETRACTED').</div>
+</div>
+
+<div class="property" id="confidence">
+  <span class="property-name">cruzam:confidence</span> <span class="badge">xsd:decimal</span>
+  <div class="property-comment">Confidence score for a claim or resolution (0.0 to 1.0).</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="audio">Audio Capture &amp; Transcription</h2>
+
+<div class="property" id="entityCount">
+  <span class="property-name">cruzam:entityCount</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of entities (e.g., audio chunks, transcription segments) in a dataset.</div>
+</div>
+
+<div class="property" id="language">
+  <span class="property-name">cruzam:language</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">ISO 639-1 language code of the content (e.g., 'en', 'sv').</div>
+</div>
+
+<div class="property" id="engine">
+  <span class="property-name">cruzam:engine</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Transcription or processing engine used (e.g., 'deepgram', 'whisper').</div>
+</div>
+
+<div class="property" id="chunkCount">
+  <span class="property-name">cruzam:chunkCount</span> <span class="badge">xsd:integer</span>
+  <div class="property-comment">Number of audio chunks in a transcription capture.</div>
+</div>
+
+<div class="property" id="timeRange">
+  <span class="property-name">cruzam:timeRange</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Human-readable time range covered by a capture.</div>
+</div>
+
+<div class="property" id="qualityNote">
+  <span class="property-name">cruzam:qualityNote</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Free-text note about data quality issues or observations.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="meeting">Meeting &amp; Communication</h2>
+
+<div class="property" id="channel">
+  <span class="property-name">cruzam:channel</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Communication channel used (e.g., 'Messenger audio call', 'Teams', 'Slack').</div>
+</div>
+
+<div class="property" id="topics">
+  <span class="property-name">cruzam:topics</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Comma-separated list of topics discussed in a meeting or conversation.</div>
+</div>
+
+<div class="property" id="role">
+  <span class="property-name">cruzam:role</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Role of an agent in an association (e.g., 'participant', 'scribe', 'initiator').</div>
+</div>
+
+<div class="property" id="sections">
+  <span class="property-name">cruzam:sections</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Comma-separated list of sections in a generated document.</div>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="meta">General Metadata</h2>
+
+<div class="property" id="format">
+  <span class="property-name">cruzam:format</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">MIME type of the referenced file (e.g., 'text/markdown', 'audio/mpeg', 'application/ld+json').</div>
+</div>
+
+<div class="property" id="source">
+  <span class="property-name">cruzam:source</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Source identifier or URL for an entity's origin.</div>
+</div>
+
+<div class="property" id="filePath">
+  <span class="property-name">cruzam:filePath</span> <span class="badge">xsd:string</span>
+  <div class="property-comment">Local filesystem path to the referenced file.</div>
+</div>
+
+<footer>
+  <p>Cruzam Provenance Vocabulary &middot; v0.1.0 &middot; 2026-02-08</p>
+  <p>Extends <a href="https://www.w3.org/TR/prov-o/">W3C PROV-O</a> for the <a href="https://github.com/cruzam">Cruzam</a> context engine.</p>
+</footer>
+
+</body>
+</html>

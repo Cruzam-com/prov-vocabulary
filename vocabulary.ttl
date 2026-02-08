@@ -1,0 +1,393 @@
+@prefix cruzam: <https://prov.cruzam.com/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+# --- Ontology Header ---
+
+<https://prov.cruzam.com/> a owl:Ontology ;
+    rdfs:label "Cruzam Provenance Vocabulary" ;
+    rdfs:comment "Extension properties for PROV-O provenance tracking in the Cruzam context engine. Covers wearable health data (Oura), social network analysis (LinkedIn), meeting capture, and AI-assisted insight generation." ;
+    dcterms:created "2026-02-08"^^xsd:date ;
+    owl:versionInfo "0.1.0" .
+
+# =============================================================================
+# Wearable Health Data (Oura Ring)
+# =============================================================================
+
+cruzam:score a owl:DatatypeProperty ;
+    rdfs:label "score" ;
+    rdfs:comment "Numeric score from source system (e.g., Oura sleep score, readiness score). 0-100 scale." ;
+    rdfs:range xsd:integer .
+
+cruzam:day a owl:DatatypeProperty ;
+    rdfs:label "day" ;
+    rdfs:comment "Calendar date the measurement covers." ;
+    rdfs:range xsd:date .
+
+cruzam:bedtimeStart a owl:DatatypeProperty ;
+    rdfs:label "bedtime start" ;
+    rdfs:comment "Start of sleep session as recorded by wearable device." ;
+    rdfs:range xsd:dateTime .
+
+cruzam:bedtimeEnd a owl:DatatypeProperty ;
+    rdfs:label "bedtime end" ;
+    rdfs:comment "End of sleep session as recorded by wearable device." ;
+    rdfs:range xsd:dateTime .
+
+cruzam:efficiency a owl:DatatypeProperty ;
+    rdfs:label "efficiency" ;
+    rdfs:comment "Sleep efficiency percentage (time asleep / time in bed * 100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:avgHeartRate a owl:DatatypeProperty ;
+    rdfs:label "average heart rate" ;
+    rdfs:comment "Average heart rate during sleep session in beats per minute." ;
+    rdfs:range xsd:decimal .
+
+cruzam:avgHrv a owl:DatatypeProperty ;
+    rdfs:label "average HRV" ;
+    rdfs:comment "Average heart rate variability during sleep in milliseconds." ;
+    rdfs:range xsd:integer .
+
+cruzam:avgBreath a owl:DatatypeProperty ;
+    rdfs:label "average breathing rate" ;
+    rdfs:comment "Average breathing rate during sleep in breaths per minute." ;
+    rdfs:range xsd:decimal .
+
+cruzam:deepSleepDuration a owl:DatatypeProperty ;
+    rdfs:label "deep sleep duration" ;
+    rdfs:comment "Total deep sleep duration in seconds." ;
+    rdfs:range xsd:integer .
+
+cruzam:awakeTime a owl:DatatypeProperty ;
+    rdfs:label "awake time" ;
+    rdfs:comment "Total time spent awake during sleep session in seconds." ;
+    rdfs:range xsd:integer .
+
+# --- Oura Sleep Contributors (0-100 sub-scores) ---
+
+cruzam:contributorDeepSleep a owl:DatatypeProperty ;
+    rdfs:label "contributor: deep sleep" ;
+    rdfs:comment "Oura sleep contributor score for deep sleep amount (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorEfficiency a owl:DatatypeProperty ;
+    rdfs:label "contributor: efficiency" ;
+    rdfs:comment "Oura sleep contributor score for sleep efficiency (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorLatency a owl:DatatypeProperty ;
+    rdfs:label "contributor: latency" ;
+    rdfs:comment "Oura sleep contributor score for sleep onset latency (0-100). Higher = fell asleep faster." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorRemSleep a owl:DatatypeProperty ;
+    rdfs:label "contributor: REM sleep" ;
+    rdfs:comment "Oura sleep contributor score for REM sleep amount (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorRestfulness a owl:DatatypeProperty ;
+    rdfs:label "contributor: restfulness" ;
+    rdfs:comment "Oura sleep contributor score for restfulness / lack of disturbances (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorTiming a owl:DatatypeProperty ;
+    rdfs:label "contributor: timing" ;
+    rdfs:comment "Oura sleep contributor score for sleep timing alignment with circadian rhythm (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorTotalSleep a owl:DatatypeProperty ;
+    rdfs:label "contributor: total sleep" ;
+    rdfs:comment "Oura sleep contributor score for total sleep duration (0-100)." ;
+    rdfs:range xsd:integer .
+
+# --- Oura Readiness Contributors ---
+
+cruzam:contributorActivityBalance a owl:DatatypeProperty ;
+    rdfs:label "contributor: activity balance" ;
+    rdfs:comment "Oura readiness contributor score for activity balance over recent days (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorBodyTemperature a owl:DatatypeProperty ;
+    rdfs:label "contributor: body temperature" ;
+    rdfs:comment "Oura readiness contributor score for body temperature deviation (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorPreviousDayActivity a owl:DatatypeProperty ;
+    rdfs:label "contributor: previous day activity" ;
+    rdfs:comment "Oura readiness contributor score for previous day activity level (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorPreviousNight a owl:DatatypeProperty ;
+    rdfs:label "contributor: previous night" ;
+    rdfs:comment "Oura readiness contributor score for previous night sleep quality (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorRecoveryIndex a owl:DatatypeProperty ;
+    rdfs:label "contributor: recovery index" ;
+    rdfs:comment "Oura readiness contributor score for resting heart rate recovery (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:contributorRestingHeartRate a owl:DatatypeProperty ;
+    rdfs:label "contributor: resting heart rate" ;
+    rdfs:comment "Oura readiness contributor score for resting heart rate relative to baseline (0-100)." ;
+    rdfs:range xsd:integer .
+
+# =============================================================================
+# Insight Classification
+# =============================================================================
+
+cruzam:category a owl:DatatypeProperty ;
+    rdfs:label "category" ;
+    rdfs:comment "Thematic category of an insight (e.g., 'sleep', 'activity', 'network')." ;
+    rdfs:range xsd:string .
+
+cruzam:severity a owl:DatatypeProperty ;
+    rdfs:label "severity" ;
+    rdfs:comment "Severity level of an insight finding (e.g., 'low', 'medium', 'high', 'critical')." ;
+    rdfs:range xsd:string .
+
+cruzam:pattern a owl:DatatypeProperty ;
+    rdfs:label "pattern" ;
+    rdfs:comment "Machine-readable pattern identifier for an insight (e.g., 'short_sleep_fast_onset')." ;
+    rdfs:range xsd:string .
+
+# =============================================================================
+# Social Network Analysis (LinkedIn)
+# =============================================================================
+
+cruzam:postAuthor a owl:DatatypeProperty ;
+    rdfs:label "post author" ;
+    rdfs:comment "LinkedIn public identifier (slug) of the original post author." ;
+    rdfs:range xsd:string .
+
+cruzam:reshareAuthor a owl:DatatypeProperty ;
+    rdfs:label "reshare author" ;
+    rdfs:comment "LinkedIn public identifier (slug) of the person who reshared the post." ;
+    rdfs:range xsd:string .
+
+cruzam:taggedPeople a owl:DatatypeProperty ;
+    rdfs:label "tagged people" ;
+    rdfs:comment "Number of people tagged in a social media post." ;
+    rdfs:range xsd:integer .
+
+cruzam:commentParticipants a owl:DatatypeProperty ;
+    rdfs:label "comment participants" ;
+    rdfs:comment "Number of unique people who commented on a post." ;
+    rdfs:range xsd:integer .
+
+cruzam:totalUniquePeople a owl:DatatypeProperty ;
+    rdfs:label "total unique people" ;
+    rdfs:comment "Total number of unique people involved in a post (tagged + commenters, deduplicated)." ;
+    rdfs:range xsd:integer .
+
+cruzam:companiesMentioned a owl:DatatypeProperty ;
+    rdfs:label "companies mentioned" ;
+    rdfs:comment "Number of distinct companies mentioned or tagged in a post." ;
+    rdfs:range xsd:integer .
+
+cruzam:topic a owl:DatatypeProperty ;
+    rdfs:label "topic" ;
+    rdfs:comment "Primary topic or event identifier (e.g., 'PACT2026')." ;
+    rdfs:range xsd:string .
+
+# --- Network Overlap Analysis ---
+
+cruzam:taggedConnected a owl:DatatypeProperty ;
+    rdfs:label "tagged connected" ;
+    rdfs:comment "Number of tagged people who are 1st-degree connections." ;
+    rdfs:range xsd:integer .
+
+cruzam:taggedTotal a owl:DatatypeProperty ;
+    rdfs:label "tagged total" ;
+    rdfs:comment "Total number of tagged people in the analysis set." ;
+    rdfs:range xsd:integer .
+
+cruzam:commentConnected a owl:DatatypeProperty ;
+    rdfs:label "comment connected" ;
+    rdfs:comment "Number of comment participants who are 1st-degree connections." ;
+    rdfs:range xsd:integer .
+
+cruzam:commentTotal a owl:DatatypeProperty ;
+    rdfs:label "comment total" ;
+    rdfs:comment "Total number of comment participants in the analysis set." ;
+    rdfs:range xsd:integer .
+
+cruzam:totalConnected a owl:DatatypeProperty ;
+    rdfs:label "total connected" ;
+    rdfs:comment "Total number of people who are 1st-degree connections across all categories." ;
+    rdfs:range xsd:integer .
+
+cruzam:totalPeople a owl:DatatypeProperty ;
+    rdfs:label "total people" ;
+    rdfs:comment "Total number of people in the analysis set." ;
+    rdfs:range xsd:integer .
+
+cruzam:overlapRate a owl:DatatypeProperty ;
+    rdfs:label "overlap rate" ;
+    rdfs:comment "Percentage of people who are 1st-degree connections (0-100)." ;
+    rdfs:range xsd:integer .
+
+cruzam:pichtrConnections a owl:DatatypeProperty ;
+    rdfs:label "PICHTR connections" ;
+    rdfs:comment "Number of 1st-degree connections at PICHTR (Pacific International Center for High Technology Research)." ;
+    rdfs:range xsd:integer .
+
+cruzam:defenceAuConnections a owl:DatatypeProperty ;
+    rdfs:label "Defence Australia connections" ;
+    rdfs:comment "Number of 1st-degree connections in Australian Defence organizations." ;
+    rdfs:range xsd:integer .
+
+# =============================================================================
+# Data Provenance & Enrichment
+# =============================================================================
+
+cruzam:table a owl:DatatypeProperty ;
+    rdfs:label "table" ;
+    rdfs:comment "Database table name that an entity references." ;
+    rdfs:range xsd:string .
+
+cruzam:rowCount a owl:DatatypeProperty ;
+    rdfs:label "row count" ;
+    rdfs:comment "Number of rows in a referenced database table." ;
+    rdfs:range xsd:integer .
+
+cruzam:records a owl:DatatypeProperty ;
+    rdfs:label "records" ;
+    rdfs:comment "Number of records in a data file or batch." ;
+    rdfs:range xsd:integer .
+
+cruzam:errors a owl:DatatypeProperty ;
+    rdfs:label "errors" ;
+    rdfs:comment "Number of errors encountered during a batch operation." ;
+    rdfs:range xsd:integer .
+
+cruzam:companies a owl:DatatypeProperty ;
+    rdfs:label "companies" ;
+    rdfs:comment "Company names/IDs in a batch, or count of companies in a dataset." ;
+    rdfs:range rdfs:Literal .
+
+cruzam:fixCount a owl:DatatypeProperty ;
+    rdfs:label "fix count" ;
+    rdfs:comment "Number of corrections applied during a verification activity." ;
+    rdfs:range xsd:integer .
+
+cruzam:people a owl:DatatypeProperty ;
+    rdfs:label "people" ;
+    rdfs:comment "Count of people in a dataset or analysis." ;
+    rdfs:range xsd:integer .
+
+cruzam:connectedPeople a owl:DatatypeProperty ;
+    rdfs:label "connected people" ;
+    rdfs:comment "Count of people who are 1st-degree connections in a dataset." ;
+    rdfs:range xsd:integer .
+
+cruzam:sectors a owl:DatatypeProperty ;
+    rdfs:label "sectors" ;
+    rdfs:comment "Number of industry sectors covered in an analysis." ;
+    rdfs:range xsd:integer .
+
+cruzam:recommendedActions a owl:DatatypeProperty ;
+    rdfs:label "recommended actions" ;
+    rdfs:comment "Number of recommended follow-up actions in an opportunity brief." ;
+    rdfs:range xsd:integer .
+
+cruzam:intelligenceGaps a owl:DatatypeProperty ;
+    rdfs:label "intelligence gaps" ;
+    rdfs:comment "Number of identified intelligence gaps requiring further research." ;
+    rdfs:range xsd:integer .
+
+cruzam:claimCount a owl:DatatypeProperty ;
+    rdfs:label "claim count" ;
+    rdfs:comment "Number of provenance claims recorded." ;
+    rdfs:range xsd:integer .
+
+cruzam:status a owl:DatatypeProperty ;
+    rdfs:label "status" ;
+    rdfs:comment "Epistemic status of a claim or entity (e.g., 'CANDIDATE', 'VERIFIED', 'DISPUTED', 'RETRACTED')." ;
+    rdfs:range xsd:string .
+
+cruzam:confidence a owl:DatatypeProperty ;
+    rdfs:label "confidence" ;
+    rdfs:comment "Confidence score for a claim or resolution (0.0 to 1.0)." ;
+    rdfs:range xsd:decimal .
+
+# =============================================================================
+# Audio Capture & Transcription
+# =============================================================================
+
+cruzam:entityCount a owl:DatatypeProperty ;
+    rdfs:label "entity count" ;
+    rdfs:comment "Number of entities (e.g., audio chunks, transcription segments) in a dataset." ;
+    rdfs:range xsd:integer .
+
+cruzam:language a owl:DatatypeProperty ;
+    rdfs:label "language" ;
+    rdfs:comment "ISO 639-1 language code of the content (e.g., 'en', 'sv')." ;
+    rdfs:range xsd:string .
+
+cruzam:engine a owl:DatatypeProperty ;
+    rdfs:label "engine" ;
+    rdfs:comment "Transcription or processing engine used (e.g., 'deepgram', 'whisper')." ;
+    rdfs:range xsd:string .
+
+cruzam:chunkCount a owl:DatatypeProperty ;
+    rdfs:label "chunk count" ;
+    rdfs:comment "Number of audio chunks in a transcription capture." ;
+    rdfs:range xsd:integer .
+
+cruzam:timeRange a owl:DatatypeProperty ;
+    rdfs:label "time range" ;
+    rdfs:comment "Human-readable time range covered by a capture (e.g., '2026-02-08T09:52:47Z to 2026-02-08T10:36:25Z')." ;
+    rdfs:range xsd:string .
+
+cruzam:qualityNote a owl:DatatypeProperty ;
+    rdfs:label "quality note" ;
+    rdfs:comment "Free-text note about data quality issues or observations." ;
+    rdfs:range xsd:string .
+
+# =============================================================================
+# Meeting & Communication
+# =============================================================================
+
+cruzam:channel a owl:DatatypeProperty ;
+    rdfs:label "channel" ;
+    rdfs:comment "Communication channel used (e.g., 'Messenger audio call', 'Teams', 'Slack')." ;
+    rdfs:range xsd:string .
+
+cruzam:topics a owl:DatatypeProperty ;
+    rdfs:label "topics" ;
+    rdfs:comment "Comma-separated list of topics discussed in a meeting or conversation." ;
+    rdfs:range xsd:string .
+
+cruzam:role a owl:DatatypeProperty ;
+    rdfs:label "role" ;
+    rdfs:comment "Role of an agent in an association (e.g., 'participant', 'scribe', 'initiator')." ;
+    rdfs:range xsd:string .
+
+cruzam:sections a owl:DatatypeProperty ;
+    rdfs:label "sections" ;
+    rdfs:comment "Comma-separated list of sections in a generated document." ;
+    rdfs:range xsd:string .
+
+# =============================================================================
+# General Metadata
+# =============================================================================
+
+cruzam:format a owl:DatatypeProperty ;
+    rdfs:label "format" ;
+    rdfs:comment "MIME type of the referenced file (e.g., 'text/markdown', 'audio/mpeg', 'application/ld+json')." ;
+    rdfs:range xsd:string .
+
+cruzam:source a owl:DatatypeProperty ;
+    rdfs:label "source" ;
+    rdfs:comment "Source identifier or URL for an entity's origin." ;
+    rdfs:range xsd:string .
+
+cruzam:filePath a owl:DatatypeProperty ;
+    rdfs:label "file path" ;
+    rdfs:comment "Local filesystem path to the referenced file." ;
+    rdfs:range xsd:string .
