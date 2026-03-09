@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARFORPAC-NS-2026-0309 | Cruzam Intelligence Assessment</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #1e1e2e;
+  --bg-card:   #181825;
+  --bg-surface:#11111b;
+  --border:    rgba(205,214,244,0.1);
+  --border-hi: rgba(205,214,244,0.2);
+  --text:      #cdd6f4;
+  --text-dim:  #a6adc8;
+  --text-muted:#6c7086;
+  --accent:    #89b4fa;
+  --green:     #a6e3a1;
+  --yellow:    #f9e2af;
+  --red:       #f38ba8;
+  --mauve:     #cba6f7;
+  --teal:      #94e2d5;
+  --peach:     #fab387;
+  --mono:      'SF Mono', 'Fira Code', 'Cascadia Code', 'Menlo', 'Consolas', monospace;
+  --sans:      -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Helvetica, Arial, sans-serif;
+}
+
+html { font-size: 15px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ── */
+.page { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── Header Bar ── */
+.header-bar {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+}
+.header-label {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-left: 1px solid var(--border-hi);
+  padding-left: 16px;
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+.classification {
+  background: rgba(166,227,161,0.12);
+  color: var(--green);
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+}
+.assessment-id { color: var(--text-muted); }
+.header-date { color: var(--text-dim); }
+
+/* ── Cards ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin-top: 24px;
+}
+.card-tight { padding: 20px 24px; }
+
+/* ── Section Headers ── */
+.section-header {
+  border-left: 4px solid var(--accent);
+  padding-left: 16px;
+  margin-top: 40px;
+  margin-bottom: 4px;
+}
+.section-header h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+.section-header .section-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.badge-green  { background: rgba(166,227,161,0.15); color: var(--green); }
+.badge-yellow { background: rgba(249,226,175,0.15); color: var(--yellow); }
+.badge-red    { background: rgba(243,139,168,0.15); color: var(--red); }
+.badge-blue   { background: rgba(137,180,250,0.15); color: var(--accent); }
+.badge-gray   { background: rgba(108,112,134,0.15); color: var(--text-muted); }
+.badge-mauve  { background: rgba(203,166,247,0.15); color: var(--mauve); }
+
+/* ── Executive Summary ── */
+.exec-summary {
+  border-left: 4px solid var(--green);
+  margin-top: 28px;
+}
+.exec-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.exec-top .label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.exec-rec {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--green);
+  font-family: var(--mono);
+}
+.exec-body {
+  font-size: 1.0rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* ── Data Grid ── */
+.data-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 6px 16px;
+  font-size: 0.9rem;
+}
+.data-grid dt {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-top: 2px;
+}
+.data-grid dd {
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+.data-grid dd.text-val {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+/* ── Personnel Cards ── */
+.personnel-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-top: 12px;
+}
+.personnel-card:first-of-type { margin-top: 0; }
+.personnel-name {
+  font-size: 1.0rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.personnel-role {
+  font-size: 0.82rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.personnel-history {
+  list-style: none;
+  padding: 0;
+}
+.personnel-history li {
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  padding: 2px 0;
+  padding-left: 16px;
+  position: relative;
+}
+.personnel-history li::before {
+  content: "  ";
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}
+.personnel-key {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(249,226,175,0.08);
+  border-left: 3px solid var(--yellow);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.84rem;
+  color: var(--yellow);
+}
+
+/* ── Network Tree ── */
+.network-section {
+  margin-top: 12px;
+}
+.network-tree {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.9;
+  padding: 20px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.network-tree .node {
+  color: var(--accent);
+  font-weight: 600;
+}
+.network-tree .edge {
+  color: var(--text-muted);
+}
+.network-tree .target {
+  color: var(--green);
+  font-weight: 600;
+}
+.network-tree .count {
+  color: var(--yellow);
+  font-weight: 700;
+}
+.network-tree .cross {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Evidence List ── */
+.evidence-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+.evidence-list li {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  padding: 6px 0 6px 20px;
+  position: relative;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(205,214,244,0.04);
+}
+.evidence-list li:last-child { border-bottom: none; }
+.evidence-list li::before {
+  content: "\25C6";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.65rem;
+  top: 9px;
+}
+
+/* ── Assessment Box ── */
+.assessment-box {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: rgba(166,227,161,0.06);
+  border: 1px solid rgba(166,227,161,0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--green);
+  line-height: 1.6;
+}
+.assessment-box.warning {
+  background: rgba(249,226,175,0.06);
+  border-color: rgba(249,226,175,0.2);
+  color: var(--yellow);
+}
+
+/* ── Tech Stack ── */
+.tech-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 16px;
+}
+.tech-item {
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.tech-name {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  color: var(--teal);
+  font-weight: 600;
+}
+.tech-desc {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.partners-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.partner-chip {
+  padding: 4px 12px;
+  background: rgba(137,180,250,0.08);
+  border: 1px solid rgba(137,180,250,0.15);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-family: var(--mono);
+}
+
+.insight-box {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: rgba(137,180,250,0.06);
+  border: 1px solid rgba(137,180,250,0.2);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: var(--accent);
+  line-height: 1.7;
+}
+
+/* ── Alignment Table ── */
+.align-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  font-size: 0.88rem;
+}
+.align-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 2px solid var(--border-hi);
+  font-weight: 600;
+}
+.align-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.align-table tr:last-child td { border-bottom: none; }
+.align-table .priority { font-weight: 600; color: var(--text); }
+.align-table .evidence-col {
+  color: var(--text-dim);
+  font-size: 0.84rem;
+}
+
+/* ── Questions List ── */
+.questions-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: q;
+}
+.questions-list li {
+  counter-increment: q;
+  padding: 10px 0 10px 36px;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+.questions-list li:last-child { border-bottom: none; }
+.questions-list li::before {
+  content: counter(q);
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(137,180,250,0.12);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 10px;
+}
+
+/* ── Warning Cards ── */
+.warning-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+.warning-card {
+  padding: 14px 16px;
+  background: rgba(243,139,168,0.05);
+  border: 1px solid rgba(243,139,168,0.15);
+  border-radius: 6px;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.warning-card .warning-icon {
+  color: var(--red);
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* ── Footer ── */
+.footer {
+  margin-top: 48px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+.footer-brand {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.footer-sources { margin-top: 8px; }
+.footer-method { margin-top: 8px; font-style: italic; }
+
+/* ── AC Section ── */
+.ac-section {
+  border-left: 3px solid var(--yellow);
+}
+
+/* ── Print Styles ── */
+@media print {
+  body { background: #fff; color: #1a1a1a; font-size: 11pt; }
+  .header-bar { position: static; background: #fff; border-bottom: 2px solid #000; }
+  .logo { color: #000; }
+  .header-label, .header-date, .assessment-id { color: #333; }
+  .classification { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+  .card, .personnel-card, .tech-item, .warning-card {
+    background: #fff;
+    border-color: #ccc;
+    break-inside: avoid;
+  }
+  .network-tree { background: #f5f5f5; }
+  .section-header { border-left-color: #1a1a1a; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-yellow { background: #fff8e1; color: #f57f17; }
+  .badge-red { background: #fce4ec; color: #c62828; }
+  .badge-blue { background: #e3f2fd; color: #1565c0; }
+  .assessment-box { background: #e8f5e9; border-color: #81c784; color: #2e7d32; }
+  .assessment-box.warning { background: #fff8e1; border-color: #ffb74d; color: #f57f17; }
+  .insight-box { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+  .warning-card { background: #fce4ec; border-color: #ef9a9a; color: #333; }
+  .network-tree .node, .network-tree .target { color: #000; }
+  .network-tree .count { color: #e65100; }
+  .footer { color: #666; }
+  .footer-brand { color: #000; }
+  a { color: inherit; text-decoration: none; }
+  .page { max-width: 100%; padding: 0; }
+}
+
+@media (max-width: 768px) {
+  .header-inner { flex-direction: column; align-items: flex-start; }
+  .data-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .warning-grid { grid-template-columns: 1fr; }
+  .card { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HEADER BAR ════════════════════════ -->
+<div class="header-bar">
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="logo">CRUZAM</span>
+      <span class="header-label">Intelligence Assessment</span>
+    </div>
+    <div class="header-right">
+      <span class="classification">UNCLASSIFIED</span>
+      <span class="header-date">2026-03-09</span>
+      <span class="assessment-id">MARFORPAC-NS-2026-0309</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ════════════════════════ EXECUTIVE SUMMARY ════════════════════════ -->
+<div class="card exec-summary">
+  <div class="exec-top">
+    <div>
+      <div class="label">Recommendation</div>
+      <div class="exec-rec">MEET</div>
+    </div>
+    <div style="margin-left: 24px;">
+      <div class="label">Confidence</div>
+      <span class="badge badge-green" style="font-size: 0.85rem; padding: 5px 14px;">HIGH</span>
+    </div>
+    <div style="margin-left: 12px; font-size: 0.78rem; color: var(--text-muted);">
+      Upgraded from Moderate &mdash; engagement data confirms deep existing relationship
+    </div>
+  </div>
+  <div class="exec-body">
+    Northslope Technologies is a Palantir-native AI firm with confirmed pre-existing relationships across the MCTSSA/MARFORPAC chain. Palantir is already operational in Project Dynamis. This is a targeted engagement, not a cold approach.
+  </div>
+</div>
+
+<!-- ════════════════════════ COMPANY PROFILE ════════════════════════ -->
+<div class="section-header">
+  <h2>Company Profile</h2>
+</div>
+<div class="card">
+  <dl class="data-grid">
+    <dt>Name</dt>
+    <dd>Northslope Technologies</dd>
+
+    <dt>Founded</dt>
+    <dd>2024, Denver CO</dd>
+
+    <dt>Staff</dt>
+    <dd>97 <span style="color: var(--text-muted); font-size: 0.78rem;">(~90% ex-Palantir FDEs)</span></dd>
+
+    <dt>Funding</dt>
+    <dd>$22M Series A <span style="color: var(--text-muted); font-size: 0.78rem;">(Jan 2026)</span></dd>
+
+    <dt>Investors</dt>
+    <dd class="text-val">Friends &amp; Family Capital <span style="color: var(--text-muted); font-size: 0.78rem;">(Palantir's former CFO)</span>, Goldcrest Capital <span style="color: var(--text-muted); font-size: 0.78rem;">(Palantir's first independent board director)</span></dd>
+
+    <dt>Status</dt>
+    <dd class="text-val"><span class="badge badge-mauve">Palantir Vanguard: Elite</span> <span style="color: var(--text-muted); font-size: 0.78rem;">&mdash; first and only recipient</span></dd>
+
+    <dt>CAGE / UEI</dt>
+    <dd>9W7Z3 &ensp;|&ensp; ST1QDAAL4F21</dd>
+
+    <dt>NAICS</dt>
+    <dd>541512, 541690</dd>
+
+    <dt>Federal Awards</dt>
+    <dd><span style="color: var(--yellow);">None to date</span></dd>
+
+    <dt>Offices</dt>
+    <dd>New York, London, Denver</dd>
+  </dl>
+</div>
+
+<!-- ════════════════════════ KEY PERSONNEL ════════════════════════ -->
+<div class="section-header">
+  <h2>Key Personnel</h2>
+</div>
+<div class="card" style="padding: 16px;">
+
+  <div class="personnel-card">
+    <div class="personnel-name">Amanda Shaver Gurman</div>
+    <div class="personnel-role">FDE &amp; Defense/NatSec Lead, US &amp; Asia Pacific (Nov 2025)</div>
+    <ul class="personnel-history">
+      <li>C4ADS: Head of Commercial Partnerships (Palantir Foundry integration)</li>
+      <li>Georgetown adjunct (PAI/OSINT)</li>
+      <li>Stimson Center, State Dept, VP's speechwriting, Senate</li>
+      <li>GW MA International Affairs</li>
+    </ul>
+  </div>
+
+  <div class="personnel-card">
+    <div class="personnel-name">Matthew Leonard</div>
+    <div class="personnel-role">Forward Deployed Engineer (Jan 2025)</div>
+    <ul class="personnel-history">
+      <li>Ex-Palantir FDE (3.75 years)</li>
+      <li>GDC4S Combat Software Engineer (4.75 years)</li>
+      <li>Pinterest Staff SWE, Facebook Senior SWE</li>
+      <li>Foundry &amp; AIP Builder certified</li>
+    </ul>
+    <div class="personnel-key">KEY: TJ's primary LinkedIn contact &mdash; 8 of 33 total engagements target TJ</div>
+  </div>
+
+  <div class="personnel-card">
+    <div class="personnel-name">Ben Holloway</div>
+    <div class="personnel-role">Head of Global Defence &amp; National Security (Feb 2025)</div>
+    <ul class="personnel-history">
+      <li>Royal Navy, 18 years</li>
+      <li>Head of Data &amp; Navy Applications (enterprise data integration)</li>
+      <li>OC Combat Service Support Squadron, Commando Helicopter Force</li>
+      <li>Logistics Manager, HMS Victorious (submarine)</li>
+      <li>Afghanistan contractor support</li>
+    </ul>
+  </div>
+
+  <div class="personnel-card">
+    <div class="personnel-name">Bill Ward</div>
+    <div class="personnel-role">Founder &amp; CEO</div>
+    <ul class="personnel-history">
+      <li>Ex-Palantir FDE</li>
+      <li>Obama for America, Morgan Stanley, Biofire COO</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- ════════════════════════ RELATIONSHIP INTELLIGENCE ════════════════════════ -->
+<div class="section-header">
+  <h2>Relationship Intelligence</h2>
+  <div class="section-sub">Engagement Network Analysis</div>
+</div>
+<div class="card">
+  <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px;">
+    Source: Cruzam LinkedIn Intelligence Engine &mdash; 1.08M engagement records, 74K posts, 169K persons
+  </div>
+
+  <div class="network-section">
+    <div class="network-tree">
+      <div><span class="node">Matt Leonard</span> <span style="color: var(--text-muted);">(Northslope FDE)</span></div>
+      <div><span class="edge">&ensp;&ensp;&#9500;&#9472;&#9472;</span> <span class="count">8</span> engagements <span class="edge">&rarr;</span> <span class="target">TJ</span> <span style="color: var(--text-muted);">(MCTSSA Senior Principal Engineer)</span></div>
+      <div><span class="edge">&ensp;&ensp;&#9500;&#9472;&#9472;</span> <span class="count">3</span> engagements <span class="edge">&rarr;</span> <span class="target">Bernice Kissinger</span></div>
+      <div><span class="edge">&ensp;&ensp;&#9492;&#9472;&#9472;</span> <span class="count">2</span> engagements <span class="edge">&rarr;</span> <span class="target">Arlon Smith</span> <span style="color: var(--text-muted);">(Project Dynamis Director)</span></div>
+      <div class="cross">
+        <span class="target">TJ</span> <span class="edge">&harr;</span> <span class="target">Arlon Smith</span>: <span class="count">5</span> cross-engagements <span style="color: var(--text-muted);">(4 TJ&rarr;Arlon, 1 Arlon&rarr;TJ)</span>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 20px;">Key Evidence</h3>
+  <ul class="evidence-list">
+    <li>TJ tagged Matt Leonard by name in a 2024 post about real-time briefing tools for the Army</li>
+    <li>Matt's engagement is concentrated on the MCTSSA/MARFORPAC chain (13 of 33 total interactions = 39%)</li>
+    <li>TJ promoted Palantir Startup Fellowship to his network &mdash; openly Palantir-positive</li>
+    <li>TJ runs CRADAs at MCTSSA for commercial tech evaluation &mdash; this is likely the mechanism for the "AC" engagement</li>
+  </ul>
+
+  <div class="assessment-box">
+    <strong>Assessment:</strong> NOT a cold outreach. This is a relationship-driven, targeted engagement with a warm network.
+  </div>
+</div>
+
+<!-- ════════════════════════ PALANTIR ECOSYSTEM CONTEXT ════════════════════════ -->
+<div class="section-header">
+  <h2>Palantir Ecosystem Context</h2>
+  <div class="section-sub">Project Dynamis Technology Stack &mdash; confirmed from Col. Arlon Smith (Project Dynamis Director) LinkedIn posts</div>
+</div>
+<div class="card">
+
+  <h3 style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px;">Technologies Confirmed Operational</h3>
+  <div class="tech-grid">
+    <div class="tech-item">
+      <div class="tech-name">Anduril Lattice Data Mesh</div>
+      <div class="tech-desc">Resilient, interoperable data fabric</div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-name">Palantir Target Workbench</div>
+      <div class="tech-desc">Unified, lethal kill chain</div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-name">Maven Smart System (MSS)</div>
+      <div class="tech-desc">AI situational awareness, deployed to NATO SHAPE</div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-name">MAGTF C2 Prototype</div>
+      <div class="tech-desc">Next-gen high-compute edge node</div>
+    </div>
+  </div>
+
+  <h3 style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-top: 24px; margin-bottom: 4px;">Partners &amp; Programs</h3>
+  <div class="partners-list">
+    <span class="partner-chip">USN Project Overmatch</span>
+    <span class="partner-chip">Defense Innovation Unit (DIU)</span>
+    <span class="partner-chip">Joint Fires Network</span>
+    <span class="partner-chip">U.S. Army NextGen C2 (4th ID)</span>
+    <span class="partner-chip">Marine Corps Warfighting Lab</span>
+    <span class="partner-chip">USMC PEO Land Systems</span>
+  </div>
+
+  <div class="insight-box">
+    Palantir is already deeply embedded in the MARFORPAC/Dynamis ecosystem. Northslope isn't pitching "what if you had Palantir" &mdash; they're offering to extend what's already running.
+  </div>
+</div>
+
+<!-- ════════════════════════ MARFORPAC ALIGNMENT ════════════════════════ -->
+<div class="section-header">
+  <h2>MARFORPAC Alignment</h2>
+</div>
+<div class="card" style="padding: 16px 0;">
+  <table class="align-table">
+    <thead>
+      <tr>
+        <th style="padding-left: 24px;">Priority</th>
+        <th>Alignment</th>
+        <th>Evidence</th>
+        <th>Confidence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding-left: 24px;" class="priority">Informational Advantage</td>
+        <td><span class="badge badge-green">HIGH</span></td>
+        <td class="evidence-col">Palantir MSS operational in Dynamis; Amanda's OSINT/PAI background</td>
+        <td><span class="badge badge-green">Confirmed</span></td>
+      </tr>
+      <tr>
+        <td style="padding-left: 24px;" class="priority">Dynamic Combat Power / C2</td>
+        <td><span class="badge badge-green">HIGH</span></td>
+        <td class="evidence-col">Palantir Target Workbench + Lattice in live-fire exercises</td>
+        <td><span class="badge badge-green">Confirmed</span></td>
+      </tr>
+      <tr>
+        <td style="padding-left: 24px;" class="priority">Allies &amp; Partners</td>
+        <td><span class="badge badge-green">HIGH</span></td>
+        <td class="evidence-col">Ben Holloway (Royal Navy data chief); Task Force Maven at NATO SHAPE; FVEY angle explicit</td>
+        <td><span class="badge badge-green">Confirmed</span> + <span class="badge badge-yellow">Inferred</span></td>
+      </tr>
+      <tr>
+        <td style="padding-left: 24px;" class="priority">Sustainment / Logistics</td>
+        <td><span class="badge badge-yellow">MODERATE</span></td>
+        <td class="evidence-col">Ben's logistics background (submarine + commando force); Supply chain product vertical</td>
+        <td><span class="badge badge-yellow">Inferred</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════ THE "AC" CONNECTION ════════════════════════ -->
+<div class="section-header" style="border-left-color: var(--yellow);">
+  <h2>The "AC" Connection</h2>
+</div>
+<div class="card ac-section">
+  <ul class="evidence-list">
+    <li>Both ChatGPT and Gemini Deep Research failed to identify "AC"</li>
+    <li>Our LinkedIn data provides context: TJ tagged Matt Leonard in a post about "the Army is interested in near real time briefing product"</li>
+    <li>TJ uses CRADAs at MCTSSA to evaluate commercial tech</li>
+    <li>TJ's email: "I'm operating from a different role than how you all have engaged me in AC"</li>
+    <li>Most likely: Army Contracting engagement or evaluation related to Ivy Sting/NGC2 exercises where Dynamis collaborates with Army 4th ID</li>
+  </ul>
+  <div class="assessment-box warning">
+    <strong>Confidence: MODERATE</strong> &mdash; Strong contextual evidence, no direct confirmation.
+  </div>
+</div>
+
+<!-- ════════════════════════ RECOMMENDED MEETING APPROACH ════════════════════════ -->
+<div class="section-header">
+  <h2>Recommended Meeting Approach</h2>
+  <div class="section-sub">Questions for Jeff</div>
+</div>
+<div class="card">
+  <ol class="questions-list">
+    <li>What specifically did you build/demo for TJ in the AC context?</li>
+    <li>Ben &mdash; how does Royal Navy data integration work relate to MARFORPAC coalition interop in the Pacific?</li>
+    <li>What Palantir instance/environment would this run on? Does MARFORPAC already have Palantir deployed?</li>
+    <li>Are you prime or sub? What contracting vehicle?</li>
+    <li>What was your precise role in the WEST 2026 "Art of the Edge" demo?</li>
+  </ol>
+</div>
+
+<!-- ════════════════════════ GAPS & RISK FLAGS ════════════════════════ -->
+<div class="section-header" style="border-left-color: var(--red);">
+  <h2>Gaps &amp; Risk Flags</h2>
+</div>
+<div class="card" style="padding: 16px;">
+  <div class="warning-grid">
+    <div class="warning-card">
+      <span class="warning-icon">&#9888;</span>
+      No verified DoD contracts (CAGE registered, zero awards)
+    </div>
+    <div class="warning-card">
+      <span class="warning-icon">&#9888;</span>
+      Defense vertical is &lt;6 months old (Amanda Nov 2025, Ben Feb 2025)
+    </div>
+    <div class="warning-card">
+      <span class="warning-icon">&#9888;</span>
+      94-person startup &mdash; capacity constraints for multiple DoD engagements
+    </div>
+    <div class="warning-card">
+      <span class="warning-icon">&#9888;</span>
+      Platform lock-in: Palantir-native only
+    </div>
+    <div class="warning-card" style="grid-column: 1 / -1;">
+      <span class="warning-icon">&#9888;</span>
+      SEC Form D shows early-stage revenue
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<div class="footer">
+  <div class="footer-brand">Generated by Cruzam Intelligence Engine</div>
+  <div class="footer-sources">
+    Sources: LinkedIn Entity Store (1.93M entities, 1.08M engagements, 74K posts), ChatGPT Deep Research, Gemini Deep Research, LinkedIn PDF profiles, SEC filings, Cleat.ai contractor database
+  </div>
+  <div class="footer-method">
+    Assessment methodology: Multi-source fusion with provenance-tracked evidence chains. Engagement data provides relationship intelligence unavailable from public web sources.
+  </div>
+</div>
+
+</div><!-- .page -->
+</body>
+</html>
