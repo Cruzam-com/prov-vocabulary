@@ -58,6 +58,11 @@ export async function onRequest(context) {
     return context.next();
   }
 
+  // Assessment pages — pass through to static hosting
+  if (path.startsWith("activity/assessment/")) {
+    return context.next();
+  }
+
   // Instance URIs — these are identifiers, not documents
   if (INSTANCE_PREFIXES.some((p) => path.startsWith(p))) {
     return new Response(
