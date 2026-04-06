@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parsons Corporation -- INDOPACOM Engagement Timeline</title>
+<style>
+:root {
+  --cat-meeting: #059669;
+  --cat-communication: #2563eb;
+  --cat-artifact: #d97706;
+  --cat-research: #7c3aed;
+  --color-line: #cbd5e1;
+  --lane-width: 400px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Georgia, 'Times New Roman', serif; background: #fafaf9; color: #1e293b; line-height: 1.5; }
+
+/* Header */
+header.page-header {
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+header.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+header.page-header .subtitle {
+  color: #475569;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+header.page-header .date-range {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  margin-top: 0.15rem;
+  font-family: ui-monospace, monospace;
+}
+
+/* Executive summary */
+.exec-summary {
+  max-width: 720px;
+  margin: 1.5rem auto;
+  padding: 1rem 1.25rem;
+  background: #f8fafc;
+  border-left: 4px solid #6366f1;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.88rem;
+  color: #334155;
+  line-height: 1.6;
+}
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat .num { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+.stat .label { font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* Legend */
+.legend {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: #64748b; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  justify-content: center;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+}
+.filter-pill {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 99px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.filter-pill.active { background: #1e293b; color: white; border-color: #1e293b; }
+.filter-pill:hover { border-color: #94a3b8; }
+.pill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.filter-pill.active .pill-dot { opacity: 0.8; }
+
+/* Lane labels */
+.lane-labels {
+  display: flex;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0.5rem auto 0;
+  padding: 0.5rem 2rem;
+}
+.lane-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  width: 45%;
+}
+.lane-label.right { text-align: right; }
+
+/* Phase banners */
+.phase-banner {
+  max-width: 960px;
+  margin: 2rem auto 0;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: linear-gradient(135deg, #f1f5f9, #fafaf9);
+  border-left: 4px solid #64748b;
+  border-radius: 0 8px 8px 0;
+}
+.phase-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  font-family: ui-monospace, monospace;
+}
+.phase-info h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.3;
+}
+.phase-dates {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-family: ui-monospace, monospace;
+}
+.phase-summary {
+  font-size: 0.82rem;
+  color: #475569;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+/* Timeline container */
+.timeline-container {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-line);
+  transform: translateX(-50%);
+}
+
+/* Timeline entry */
+.tl-entry {
+  position: relative;
+  display: flex;
+  margin-bottom: 1.25rem;
+  min-height: 50px;
+  transition: opacity 0.2s;
+}
+.tl-entry.hidden { display: none; }
+.tl-entry.left .tl-content {
+  margin-right: calc(50% + 24px);
+  margin-left: 0;
+  text-align: right;
+}
+.tl-entry.right .tl-content {
+  margin-left: calc(50% + 24px);
+  margin-right: 0;
+  text-align: left;
+}
+
+/* Dot on spine */
+.tl-dot {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  border: 2px solid white;
+}
+
+/* Content card */
+.tl-content {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  max-width: var(--lane-width);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  transition: box-shadow 0.15s;
+}
+.tl-content:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+.tl-content .ts {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-family: ui-monospace, monospace;
+}
+.tl-content .title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 0.15rem;
+  line-height: 1.3;
+}
+.tl-content .desc {
+  font-size: 0.8rem;
+  color: #475569;
+  margin-top: 0.25rem;
+  line-height: 1.45;
+}
+.tl-content .source {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-top: 0.35rem;
+  font-style: italic;
+}
+
+/* Tier badges */
+.tier-badge {
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+  text-transform: uppercase;
+}
+.tier-observed { background: #e0f2fe; color: #075985; }
+.tier-verified { background: #d1fae5; color: #065f46; }
+.tier-public { background: #fef3c7; color: #92400e; }
+
+/* read.ai badge */
+.readai-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  margin-top: 0.3rem;
+}
+.readai-high { background: #d1fae5; color: #065f46; }
+.readai-mid { background: #fef3c7; color: #92400e; }
+.readai-low { background: #fee2e2; color: #991b1b; }
+
+/* Chapter details */
+.chapter-details { margin-top: 0.25rem; }
+.chapter-details summary {
+  font-size: 0.68rem;
+  color: #64748b;
+  cursor: pointer;
+}
+.chapter-details ul {
+  font-size: 0.7rem;
+  color: #475569;
+  margin: 0.2rem 0 0;
+  padding-left: 1.2rem;
+  line-height: 1.5;
+}
+.chapter-details li { margin-bottom: 0.1rem; }
+.tl-entry.left .chapter-details ul { direction: rtl; padding-left: 0; padding-right: 1.2rem; }
+
+/* PROV-JSONLD section */
+.prov-section { max-width: 960px; margin: 2.5rem auto; padding: 0 1rem; }
+.prov-section details { border: 1px solid #e2e8f0; border-radius: 8px; }
+.prov-section summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+}
+.prov-section pre {
+  margin: 0;
+  padding: 1rem;
+  font-size: 0.68rem;
+  overflow-x: auto;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  max-height: 600px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 2rem;
+  line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .timeline-container::before { left: 20px; }
+  .tl-entry.left .tl-content,
+  .tl-entry.right .tl-content {
+    margin-left: 48px;
+    margin-right: 0;
+    text-align: left;
+    max-width: none;
+  }
+  .tl-dot { left: 20px; }
+  .lane-labels { display: none; }
+  .tl-entry.left .tl-content {
+    border-right: none !important;
+    border-left: 3px solid var(--cat-communication) !important;
+  }
+  .tl-entry.left .chapter-details ul { direction: ltr; padding-left: 1.2rem; padding-right: 0; }
+  .phase-banner { margin-left: 0.5rem; margin-right: 0.5rem; }
+  .exec-summary { margin-left: 0.5rem; margin-right: 0.5rem; }
+}
+
+/* Print */
+@media print {
+  .tl-content { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+  .filter-bar { display: none; }
+  .phase-banner { break-before: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Parsons Corporation -- INDOPACOM Engagement Timeline</h1>
+  <p class="subtitle">Kissinger Advisors LLC -- Strategy &amp; Capability Assessment</p>
+  <p class="date-range">July 2025 - November 2025</p>
+</header>
+
+<div class="exec-summary">
+  This timeline reconstructs the Parsons Corporation INDOPACOM strategy engagement
+  conducted via Kissinger Advisors LLC from July through November 2025.
+  The active research sprint (Sep 19-23, 15h 29min billed) produced capability
+  assessments, INDOPACOM strategy briefs, and research memoranda using
+  AI-assisted research via Gemini AI Studio and read.ai meeting analytics.
+  All events are provenance-tracked with W3C PROV-O compliant timestamps
+  and traceable to source systems.
+</div>
+
+<div class="stats-bar">
+  <div class="stat"><div class="num">4</div><div class="label">Meetings (read.ai)</div></div>
+  <div class="stat"><div class="num">6</div><div class="label">Deliverables</div></div>
+  <div class="stat"><div class="num">15h 29m</div><div class="label">Billed Hours</div></div>
+  <div class="stat"><div class="num">4</div><div class="label">Phases</div></div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#059669"></div> Meeting (4)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div> Communication (2)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div> Deliverable (6)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div> AI Research (2)</div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-pill active" data-cat="meeting" onclick="toggleCat('meeting')"><span class="pill-dot" style="background:#059669"></span>Meeting (4)</button>
+      <button class="filter-pill active" data-cat="communication" onclick="toggleCat('communication')"><span class="pill-dot" style="background:#2563eb"></span>Communication (2)</button>
+      <button class="filter-pill active" data-cat="artifact" onclick="toggleCat('artifact')"><span class="pill-dot" style="background:#d97706"></span>Deliverable (6)</button>
+      <button class="filter-pill active" data-cat="research" onclick="toggleCat('research')"><span class="pill-dot" style="background:#7c3aed"></span>AI Research (2)</button>
+</div>
+
+<div class="lane-labels">
+  <div class="lane-label">Interactions</div>
+  <div class="lane-label right">Deliverables &amp; Intelligence Products</div>
+</div>
+
+
+  <div class="phase-banner" style="border-left-color: #6366f1">
+    <div class="phase-number" style="background: #6366f1">1</div>
+    <div class="phase-info">
+      <h2>Relationship &amp; Scoping</h2>
+      <span class="phase-dates">Jul - Aug 2025</span>
+      <p class="phase-summary">Target identification, RFP scoping, and formal introduction to Parsons INDOPAC leadership.</p>
+    </div>
+  </div>
+  <div class="timeline-container">
+
+    <div class="tl-entry left" data-cat="communication" data-phase="1">
+      <div class="tl-dot" style="background:#2563eb; box-shadow: 0 0 0 2px #2563eb40"></div>
+      <div class="tl-content" style="border-right: 3px solid #2563eb">
+        <div class="ts">Jul 23, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">First Parsons Discussion</div>
+        <div class="desc">Parsons Corporation identified as strategic engagement target for INDOPACOM advisory services via Kissinger Advisors.</div>
+        <div class="source">Internal communication</div>
+      </div>
+    </div>
+    <div class="tl-entry left" data-cat="meeting" data-phase="1">
+      <div class="tl-dot" style="background:#059669; box-shadow: 0 0 0 2px #05966940"></div>
+      <div class="tl-content" style="border-right: 3px solid #059669">
+        <div class="ts">Jul 25, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">Parsons RFP Scoping Meeting</div>
+        <div class="desc">Scoping meeting with Kissinger Advisors team to define Parsons INDOPACOM research requirements and engagement structure.</div>
+        <div class="source">Google Calendar, 4 attendees</div>
+      </div>
+    </div>
+    <div class="tl-entry left" data-cat="meeting" data-phase="1">
+      <div class="tl-dot" style="background:#059669; box-shadow: 0 0 0 2px #05966940"></div>
+      <div class="tl-content" style="border-right: 3px solid #059669">
+        <div class="ts">Aug 19, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">Parsons / Kissinger Advisors Introduction</div>
+        <div class="desc">Formal introductory meeting with VADM (Ret.) Kenneth Whitesell, VP INDOPAC Strategy and Growth at Parsons Corporation. Established engagement scope and stakeholder alignment.</div>
+        <div class="source">Google Calendar, 5 attendees</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-banner" style="border-left-color: #0891b2">
+    <div class="phase-number" style="background: #0891b2">2</div>
+    <div class="phase-info">
+      <h2>Onboarding &amp; Contract</h2>
+      <span class="phase-dates">Sep 2025</span>
+      <p class="phase-summary">Contract execution, context engineering, and research preparation.</p>
+    </div>
+  </div>
+  <div class="timeline-container">
+
+    <div class="tl-entry right" data-cat="research" data-phase="2">
+      <div class="tl-dot" style="background:#7c3aed; box-shadow: 0 0 0 2px #7c3aed40"></div>
+      <div class="tl-content" style="border-left: 3px solid #7c3aed">
+        <div class="ts">Sep 15, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">Context Engineering Sessions</div>
+        <div class="desc">AI-assisted context loading via Gemini AI Studio: engagement history, stakeholder profiles, and INDOPACOM domain knowledge prepared for research phase. Two sessions (Sep 15-16).</div>
+        <div class="source">Google Drive (Gemini AI Studio), 209 KB</div>
+      </div>
+    </div>
+    <div class="tl-entry left" data-cat="communication" data-phase="2">
+      <div class="tl-dot" style="background:#2563eb; box-shadow: 0 0 0 2px #2563eb40"></div>
+      <div class="tl-content" style="border-right: 3px solid #2563eb">
+        <div class="ts">Sep 16, 2025 <span class="tier-verified tier-badge">VERIFIED</span></div>
+        <div class="title">Contract Execution</div>
+        <div class="desc">Subcontract documentation executed between Kissinger Advisors LLC and IPPD Solutions AB: Statement of Work, Consultant Certificate, Representations and Certifications, OASIS Labor Categories.</div>
+        <div class="source">Document archive, 7 files</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="artifact" data-phase="2">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Sep 16, 2025 <span class="tier-verified tier-badge">VERIFIED</span></div>
+        <div class="title">Subcontract Documentation Package</div>
+        <div class="desc">Complete contract package: SOW (Exhibit A -- IndoPacific Strategy &amp; BD SME), Consultant Certificate, Representations and Certifications Addendum, OASIS Labor Categories, and Subcontract Proposal Form.</div>
+        <div class="source">Archive, 7 files, 1.8 MB</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-banner" style="border-left-color: #059669">
+    <div class="phase-number" style="background: #059669">3</div>
+    <div class="phase-info">
+      <h2>Research &amp; Production</h2>
+      <span class="phase-dates">Sep - Oct 2025</span>
+      <p class="phase-summary">Intensive research sprint (15h 29min billed, Sep 19-23) producing capability assessment, INDOPACOM briefs, and strategy research via multi-tool AI pipeline. Deliverables refined through Oct 14.</p>
+    </div>
+  </div>
+  <div class="timeline-container">
+
+    <div class="tl-entry left" data-cat="meeting" data-phase="3">
+      <div class="tl-dot" style="background:#059669; box-shadow: 0 0 0 2px #05966940"></div>
+      <div class="tl-content" style="border-right: 3px solid #059669">
+        <div class="ts">Sep 20, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">Parsons Research Kickoff</div>
+        <div class="desc">53-minute working session on dashboard development, AI agent integration with contract data, and government opportunity identification strategies.</div>
+      <div class="readai-badge readai-mid">read.ai score: 73/100</div>
+      <details class="chapter-details"><summary>4 meeting chapters</summary><ul><li>Report Preparation for Parsons</li><li>Dashboard Development and Data Insights</li><li>Understanding Client Dynamics</li><li>Best Practices for Defense Contractor Reports</li></ul></details>
+        <div class="source">Google Meet</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="research" data-phase="3">
+      <div class="tl-dot" style="background:#7c3aed; box-shadow: 0 0 0 2px #7c3aed40"></div>
+      <div class="tl-content" style="border-left: 3px solid #7c3aed">
+        <div class="ts">Sep 20, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">SOW Deep Research (Gemini)</div>
+        <div class="desc">Gemini 2.5 Pro deep research session initiated from structured SOW analysis. Produced INDOPACOM strategy domain mapping covering Parsons capabilities, OASD-S stakeholder landscape, and Japan/Australia/Korea opportunity identification.</div>
+        <div class="source">Gemini AI Studio</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="artifact" data-phase="3">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Sep 21, 2025 <span class="tier-verified tier-badge">VERIFIED</span></div>
+        <div class="title">Parsons Corp Capability Assessment</div>
+        <div class="desc">Comprehensive capability assessment addressed to Kenneth Whitesell covering Indo-Pacific business development priorities -- Japan, Taiwan, and Australia -- aligned with SOW sections 4.4, 4.5, and 4.8. Last modified Oct 10 by Jeremy Knopp (Kissinger Advisors).</div>
+        <div class="source">Google Drive (created 2025-09-21, modified 2025-10-10)</div>
+      </div>
+    </div>
+    <div class="tl-entry left" data-cat="meeting" data-phase="3">
+      <div class="tl-dot" style="background:#059669; box-shadow: 0 0 0 2px #05966940"></div>
+      <div class="tl-content" style="border-right: 3px solid #059669">
+        <div class="ts">Sep 23, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">Strategy and Deliverable Planning</div>
+        <div class="desc">68-minute session covering event participation strategy, competitive landscape analysis, and Parsons report deliverable timeline. Structured report committed for end of week.</div>
+      <div class="readai-badge readai-high">read.ai score: 75/100</div>
+      <details class="chapter-details"><summary>4 meeting chapters</summary><ul><li>Event Participation Strategy</li><li>Data Enrichment and Networking</li><li>Competitor Analysis</li><li>Strategic Insights and Deliverables</li></ul></details>
+        <div class="source">Google Meet</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="artifact" data-phase="3">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Oct 8, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">INDOPACOM APFIT Research Brief</div>
+        <div class="desc">Intelligence brief on INDOPACOM Allied Partnership and Foreign Investment Tracker positioning. Initial version Oct 8, revised version Oct 13.</div>
+        <div class="source">Google Drive (created 2025-10-08T00:35, v2 created 2025-10-13T08:53)</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="artifact" data-phase="3">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Oct 11, 2025 <span class="tier-observed tier-badge">OBSERVED</span></div>
+        <div class="title">INDOPACOM Strategy Research Task</div>
+        <div class="desc">Intelligence memorandum on Parsons INDOPACOM strategy positioning. Initial version Oct 11, revised Oct 13. Modified through Oct 20.</div>
+        <div class="source">Google Drive (created 2025-10-11T08:24, last modified 2025-10-20)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase-banner" style="border-left-color: #d97706">
+    <div class="phase-number" style="background: #d97706">4</div>
+    <div class="phase-info">
+      <h2>Delivery &amp; Close</h2>
+      <span class="phase-dates">Oct - Nov 2025</span>
+      <p class="phase-summary">Milestone reports submitted to Kissinger Advisors, engagement hours invoiced. Active Parsons work concluded.</p>
+    </div>
+  </div>
+  <div class="timeline-container">
+
+    <div class="tl-entry right" data-cat="artifact" data-phase="4">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Oct 14, 2025 <span class="tier-verified tier-badge">VERIFIED</span></div>
+        <div class="title">Milestone Reports 1 and 2</div>
+        <div class="desc">Two milestone deliverable reports submitted to Kissinger Advisors via Jeremy Knopp, consolidating research findings and capability assessment outputs.</div>
+        <div class="source">Google Drive (uploaded 2025-10-14T08:54, forwarded by Jeremy Knopp)</div>
+      </div>
+    </div>
+    <div class="tl-entry right" data-cat="artifact" data-phase="4">
+      <div class="tl-dot" style="background:#d97706; box-shadow: 0 0 0 2px #d9770640"></div>
+      <div class="tl-content" style="border-left: 3px solid #d97706">
+        <div class="ts">Nov 10, 2025 <span class="tier-verified tier-badge">VERIFIED</span></div>
+        <div class="title">Time Report and Invoice</div>
+        <div class="desc">Engagement hours (15h 29min, Sep 19-23) documented and submitted to Kissinger Advisors. Last modified Nov 12. Marks conclusion of active Parsons engagement.</div>
+        <div class="source">Google Drive (created 2025-11-10T18:07, modified 2025-11-12)</div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="prov-section">
+  <details>
+    <summary>Provenance Chain -- PROV-JSONLD (19 statements)</summary>
+    <pre>{
+  &quot;@context&quot;: [
+    {
+      &quot;prov&quot;: &quot;http://www.w3.org/ns/prov#&quot;,
+      &quot;xsd&quot;: &quot;http://www.w3.org/2001/XMLSchema#&quot;,
+      &quot;dcterms&quot;: &quot;http://purl.org/dc/terms/&quot;,
+      &quot;foaf&quot;: &quot;http://xmlns.com/foaf/0.1/&quot;,
+      &quot;rdfs&quot;: &quot;http://www.w3.org/2000/01/rdf-schema#&quot;,
+      &quot;cruzam&quot;: &quot;https://prov.cruzam.com/ns/&quot;,
+      &quot;cruzamv&quot;: &quot;https://prov.cruzam.com/vocab/&quot;
+    }
+  ],
+  &quot;@graph&quot;: [
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/claude-code-cli&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;Claude Code CLI&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/marcus-anzengruber&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;Marcus Anzengruber&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/bernice-glenn-kissinger&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;Bernice Glenn Kissinger&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/kenny-whitesell&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;VADM (Ret.) Kenneth Whitesell&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/kissinger-advisors&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;Kissinger Advisors LLC&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Agent&quot;,
+      &quot;@id&quot;: &quot;cruzam:agent/parsons-corporation&quot;,
+      &quot;foaf:name&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons Corporation&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Activity&quot;,
+      &quot;@id&quot;: &quot;cruzam:activity/parsons-engagement-contracting&quot;,
+      &quot;startTime&quot;: &quot;2025-09-16T12:33:00Z&quot;,
+      &quot;prov:wasAssociatedWith&quot;: [
+        &quot;cruzam:agent/kissinger-advisors&quot;,
+        &quot;cruzam:agent/bernice-glenn-kissinger&quot;,
+        &quot;cruzam:agent/marcus-anzengruber&quot;
+      ],
+      &quot;prov:generated&quot;: [
+        &quot;cruzam:entity/parsons-zip-archive&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Subcontract documentation and onboarding for Parsons engagement&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Activity&quot;,
+      &quot;@id&quot;: &quot;cruzam:activity/parsons-indopacom-research&quot;,
+      &quot;prov:wasAssociatedWith&quot;: [
+        &quot;cruzam:agent/marcus-anzengruber&quot;,
+        &quot;cruzam:agent/bernice-glenn-kissinger&quot;
+      ],
+      &quot;prov:used&quot;: [
+        &quot;cruzam:entity/parsons-zip-archive&quot;
+      ],
+      &quot;prov:generated&quot;: [
+        &quot;cruzam:entity/parsons-capability-assessment&quot;,
+        &quot;cruzam:entity/parsons-indopac-report&quot;,
+        &quot;cruzam:entity/parsons-research-task&quot;,
+        &quot;cruzam:entity/parsons-diplomacy-roadmap&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;INDOPACOM strategy research and capability assessment for Parsons Corporation&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-zip-archive&quot;,
+      &quot;prov:wasGeneratedBy&quot;: [
+        &quot;cruzam:activity/parsons-engagement-contracting&quot;
+      ],
+      &quot;prov:wasAttributedTo&quot;: [
+        &quot;cruzam:agent/kissinger-advisors&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons engagement subcontract documentation package&quot;
+        }
+      ],
+      &quot;cruzamv:integrityHash&quot;: [
+        {
+          &quot;@value&quot;: &quot;sha256:a136ab75f4e31687407952afbd9747a2e95eeb63b4683dfffa8092c07a194b3d&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;7 files: BGlennKissinger2025.pdf, Consultant Certificate, Reps and Certs Addendum, Bernice SOW May2025, OASIS Labor Categories, Reps and Certs Form, Subcontract Proposal Form. All dated 2025-09-16.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-capability-assessment&quot;,
+      &quot;prov:wasGeneratedBy&quot;: [
+        &quot;cruzam:activity/parsons-indopacom-research&quot;
+      ],
+      &quot;prov:wasAttributedTo&quot;: [
+        &quot;cruzam:agent/marcus-anzengruber&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons Corp Capability Assessment&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:identifier&quot;: [
+        {
+          &quot;@value&quot;: &quot;gdrive:1xFY7vuB8oq4aBH&quot;
+        }
+      ],
+      &quot;dcterms:modified&quot;: [
+        {
+          &quot;@value&quot;: &quot;2025-10-10&quot;,
+          &quot;@type&quot;: &quot;xsd:date&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;Capability assessment addressed to Kenny Whitesell. Covers Japan/Taiwan/Australia BD priorities, SOW sections 4.4/4.5/4.8. Google Drive document, currently inaccessible (MCP -32000 error).&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-indopac-report&quot;,
+      &quot;prov:wasGeneratedBy&quot;: [
+        &quot;cruzam:activity/parsons-indopacom-research&quot;
+      ],
+      &quot;prov:wasAttributedTo&quot;: [
+        &quot;cruzam:agent/marcus-anzengruber&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;PARSONS INDOPAC REPORT REWRITE&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:identifier&quot;: [
+        {
+          &quot;@value&quot;: &quot;gdrive:1qQO0NswAVI&quot;
+        }
+      ],
+      &quot;dcterms:created&quot;: [
+        {
+          &quot;@value&quot;: &quot;2025-10-03&quot;,
+          &quot;@type&quot;: &quot;xsd:date&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;Phase I provisional strategy document. Google Drive document, currently inaccessible (MCP -32000 error).&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-research-task&quot;,
+      &quot;prov:wasGeneratedBy&quot;: [
+        &quot;cruzam:activity/parsons-indopacom-research&quot;
+      ],
+      &quot;prov:wasAttributedTo&quot;: [
+        &quot;cruzam:agent/marcus-anzengruber&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons INDOPACOM Strategy Research Task&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:identifier&quot;: [
+        {
+          &quot;@value&quot;: &quot;gdrive:1B9hL30kqEdZk&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;Intelligence memorandum. Google Drive document, currently inaccessible (MCP -32000 error).&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-diplomacy-roadmap&quot;,
+      &quot;prov:wasGeneratedBy&quot;: [
+        &quot;cruzam:activity/parsons-indopacom-research&quot;
+      ],
+      &quot;prov:wasAttributedTo&quot;: [
+        &quot;cruzam:agent/marcus-anzengruber&quot;
+      ],
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons 2025 Indo-Pacific Technical Diplomacy Roadmap&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;Confirmed to exist via Google Drive audio overview notification email (2026-03-30). Full document content inaccessible.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/parsons-linkedin-deep&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons Corporation deep LinkedIn enrichment&quot;
+        }
+      ],
+      &quot;cruzamv:integrityHash&quot;: [
+        {
+          &quot;@value&quot;: &quot;sha256:531b0e00f9609dbcc2344ed127fb8738d20586092cea85e88b4d73da2a8c6410&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:identifier&quot;: [
+        {
+          &quot;@value&quot;: &quot;linkedin:company:4898&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/bernice-sow&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Bernice SOW - May 2025&quot;
+        }
+      ],
+      &quot;cruzamv:integrityHash&quot;: [
+        {
+          &quot;@value&quot;: &quot;sha256:c922a6b4d38399905743c4c13ca2e05f409736da09d77c04e361b19d7e83c229&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;Statement of Work for the engagement. Title references May 2025.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/bernice-cv-2025&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Bernice Glenn Kissinger CV 2025&quot;
+        }
+      ],
+      &quot;cruzamv:integrityHash&quot;: [
+        {
+          &quot;@value&quot;: &quot;sha256:206aa94b4623ddf1a50b95909156a37601ab49e48dd7c347cbd4edc273f5a587&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;CV establishing full legal name as Bernice Glenn Kissinger. Also present inside zip archive.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/verified-claim/parsons-fy2025-revenue&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons FY2025 revenue: $6.364B&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:source&quot;: [
+        {
+          &quot;@value&quot;: &quot;GovCon Wire, MacroTrends, Parsons IR (investors.parsons.com)&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;FY2025 total revenue $6.364B. Net income $241M. Record adjusted EBITDA $609M.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/verified-claim/parsons-pdi-macc&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons PDI MACC: $15B (November 2025)&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:source&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons IR press release, GlobeNewsWire (Nov 11, 2025)&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;$15B Pacific Deterrence Initiative Multiple Award Construction Contract awarded by NAVFAC. 5-year base + 3 option years. Scope: design and engineering for projects exceeding $100M including runways, hangars, waterfront, warehousing, energy. Geographic: Australia, Philippines, US territories.&quot;
+        }
+      ]
+    },
+    {
+      &quot;@type&quot;: &quot;Entity&quot;,
+      &quot;@id&quot;: &quot;cruzam:entity/verified-claim/parsons-afcec-matoc&quot;,
+      &quot;rdfs:label&quot;: [
+        {
+          &quot;@value&quot;: &quot;Parsons Air Force MATOC: $15B (December 2025)&quot;
+        }
+      ],
+      &quot;cruzamv:observationTag&quot;: [
+        {
+          &quot;@value&quot;: &quot;observed&quot;
+        }
+      ],
+      &quot;dcterms:source&quot;: [
+        {
+          &quot;@value&quot;: &quot;GlobeNewsWire, Benzinga (Dec 18, 2025)&quot;
+        }
+      ],
+      &quot;dcterms:description&quot;: [
+        {
+          &quot;@value&quot;: &quot;$15B U.S. Air Force Comprehensive Construction and Engineering MATOC managed by AFCEC. 5-year ordering + 5 option years. Global scope. Complements $1.5B AFCEC Environmental Services Contract (PFAS, April 2025).&quot;
+        }
+      ]
+    }
+  ]
+}</pre>
+  </details>
+</div>
+
+<footer>
+  Parsons Corporation -- INDOPACOM Engagement Timeline<br>
+  Kissinger Advisors LLC -- 14 provenance-tracked events across 4 phases<br>
+  W3C PROV-O compliant -- Generated 2026-04-06T16:18:25Z
+</footer>
+
+<script>
+const categories = new Set(["meeting", "communication", "artifact", "research"]);
+
+function toggleCat(cat) {
+  const btn = document.querySelector('.filter-pill[data-cat="' + cat + '"]');
+  if (categories.has(cat)) {
+    categories.delete(cat);
+    btn.classList.remove('active');
+  } else {
+    categories.add(cat);
+    btn.classList.add('active');
+  }
+  render();
+}
+
+function render() {
+  document.querySelectorAll('.tl-entry').forEach(function(el) {
+    var cat = el.getAttribute('data-cat');
+    var show = categories.has(cat);
+    el.classList.toggle('hidden', !show);
+  });
+
+  // Hide phase banners + timeline containers with no visible entries
+  document.querySelectorAll('.timeline-container').forEach(function(tc) {
+    var visible = tc.querySelectorAll('.tl-entry:not(.hidden)');
+    var banner = tc.previousElementSibling;
+    if (banner && banner.classList.contains('phase-banner')) {
+      banner.style.display = visible.length > 0 ? '' : 'none';
+    }
+    tc.style.display = visible.length > 0 ? '' : 'none';
+  });
+}
+</script>
+
+</body>
+</html>

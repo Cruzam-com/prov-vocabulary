@@ -58,8 +58,13 @@ export async function onRequest(context) {
     return context.next();
   }
 
-  // Assessment pages — pass through to static hosting
+  // Assessment pages -- pass through to static hosting
   if (path.startsWith("activity/assessment/")) {
+    return context.next();
+  }
+
+  // Entity pages -- serve static files for events and engagements
+  if (path.startsWith("entity/event/") || path.startsWith("entity/engagement/")) {
     return context.next();
   }
 
